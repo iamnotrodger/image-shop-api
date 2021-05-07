@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+    db:
+        container_name: postgres-image-shop
+        image: 'postgres:alpine'
+        env_file:
+            - ./.env
+        ports:
+            - '5432:5432'
+
+    app:
+        container_name: image-shop-api
+        build: ./
+        env_file:
+            - ./.env
+        ports:
+            - '3000:3000'
+        volumes:
+            - ./:/usr/image-shop-api
