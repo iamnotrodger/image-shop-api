@@ -38,7 +38,7 @@ export const uploadImage = async (
 ) => {
     try {
         const user = req.user as User;
-        const { path, filename } = req.file as Express.Multer.File;
+        const { path, filename } = req.file;
 
         const image = new Image();
         image.name = filename;
@@ -50,6 +50,31 @@ export const uploadImage = async (
         await imageRepository.save(image);
 
         res.status(200).json(image);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const uploadImagesMulti = async (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) => {
+    try {
+        const baseUrl = `${req.protocol}://${req.get('host')}/`;
+
+        const imagesUploaded = req.files as Express.Multer.File[];
+        const images: Image[] = imagesUploaded.map((file) => ({
+            name: file.filename,
+            path: file.path,
+            url: baseUrl + file.path,
+            user: req.user,
+        }));
+
+        const imageRepository = getManager().getRepository(Image);
+        await imageRepository.save(images);
+
+        res.status(200).json(images);
     } catch (error) {
         next(error);
     }
@@ -69,7 +94,7 @@ export const deleteImage = async (
                 id,
             });
             validateImage(user, image);
-            fs.unlinkSync(image!.path);
+            fs.unlinkSync(image!.path!);
             await transactionManager.remove(Image, image);
         });
 
