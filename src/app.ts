@@ -2,10 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import { join } from 'path';
 import { createConnection } from 'typeorm';
-import {
-    errorHandler,
-    notFound,
-} from './controller/ErrorController/ErrorController';
+import { errorHandler, notFound } from './controller/ErrorController';
 
 //Create Express Server
 const app = express();
@@ -13,7 +10,7 @@ const app = express();
 //Connect to postgres database
 createConnection({
     type: 'postgres',
-    database: 'assembly-shop',
+    database: 'image-shop',
     url: process.env.DATABASE_URL,
     entities: [join(__dirname, '/entity/*')],
     migrations: [join(__dirname, '/migration/*')],
