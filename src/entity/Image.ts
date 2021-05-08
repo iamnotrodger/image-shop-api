@@ -11,7 +11,7 @@ import User from './User';
 @Entity()
 export default class Image {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id?: number;
 
     @Column({ name: 'user', nullable: true })
     userId?: number;
@@ -25,13 +25,13 @@ export default class Image {
     user?: User;
 
     @Column('text')
-    name!: string;
+    name?: string;
 
     @Column('text')
-    path!: string;
+    path?: string;
 
     @Column('text')
-    url!: string;
+    url?: string;
 
     @CreateDateColumn()
     created?: Date;
