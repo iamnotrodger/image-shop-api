@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import { join } from 'path';
 import { createConnection } from 'typeorm';
 import { errorHandler, notFound } from './controller/ErrorController';
+import AuthRoutes from './route/AuthRoutes';
 
 //Create Express Server
 const app = express();
@@ -31,7 +32,12 @@ createConnection({
     );
 
 //middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(morgan('dev'));
+
+//routes
+app.use('/api/auth', AuthRoutes);
 
 //Error Handling
 app.use(errorHandler);
