@@ -1,16 +1,13 @@
 FROM node:lts
 
-#Create and set working dir of the image
-WORKDIR /usr/image-shop-api/
+WORKDIR /usr/app
 
-# Install app dependencies
 COPY package*.json ./
 RUN npm install
 
-#Bundle app source 
-COPY ./ ./
+COPY . .
 
-# For typescript, compiling typescript
 RUN npm run build
 
+EXPOSE 8080
 CMD ["npm", "start"]
