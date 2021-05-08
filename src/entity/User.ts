@@ -2,8 +2,10 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
 } from 'typeorm';
+import Image from './Image';
 
 @Entity()
 export default class User {
@@ -15,6 +17,9 @@ export default class User {
 
     @Column('text')
     password?: string;
+
+    @OneToMany(() => Image, (photo) => photo.user)
+    images?: Image[];
 
     @CreateDateColumn()
     joined?: Date;
