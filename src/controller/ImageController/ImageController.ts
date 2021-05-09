@@ -37,6 +37,10 @@ export const uploadImage = async (
     next: NextFunction,
 ) => {
     try {
+        if (!req.file) {
+            throw new InvalidRequestException('Missing image file');
+        }
+
         const user = req.user as User;
         const { path, filename } = req.file;
 
@@ -61,6 +65,10 @@ export const uploadImagesMulti = async (
     next: NextFunction,
 ) => {
     try {
+        if (!req.files.length) {
+            throw new InvalidRequestException('Missing image files');
+        }
+
         const baseUrl = `${req.protocol}://${req.get('host')}/`;
 
         const imagesUploaded = req.files as Express.Multer.File[];
